@@ -19,7 +19,8 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe)
 
     def forward(self, x):
-        x = x + self.pe[:, x.shape[1], :]
+        # x = x + self.pe[:, x.shape[1], :], fix bug: https://github.com/DiffPoseTalk/DiffPoseTalk/issues/20
+        x = x + (self.pe[:, :x.shape[1], :])
         return self.dropout(x)
 
 
